@@ -1,0 +1,27 @@
+<%= form_with model: @event, local: true do |form| %>
+  <div>
+    <%= form.label :name, "Event Name" %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Description" %>
+    <%= form.text_area :description, rows: 5, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :location, "Location" %>
+    <%= form.text_field :location, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :date, "Date" %>
+    <%= form.date_field :date, required: true %>
+  </div>
+
+  <br>
+  <div class="button-container">
+    <%= form.submit "Create Event", class: "button" %>
+  </div>
+  <br>
+<% end %>

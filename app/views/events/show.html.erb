@@ -1,0 +1,47 @@
+<div class="container">
+  <h1 class="title"><%= h(@event.name) %></h1> <!-- Escape event name to prevent XSS -->
+  <p><%= sanitize(@event.description) %></p> <!-- Sanitize description to allow limited safe HTML -->
+  <p><strong>Location:</strong> <%= h(@event.location) %></p> <!-- Escape location to prevent XSS -->
+  <p><strong>Date:</strong> <%= h(@event.date) %></p> <!-- Escape date to ensure safe rendering -->
+
+  <h2 class="subtitle">Registrations</h2>
+  <% if @registrations.any? %>
+    <ul class="registration-list">
+      <% @registrations.each do |registration| %>
+        <li class="registration-item">
+          <%= h(registration.user.username) %> <!-- Escape username to prevent XSS -->
+          <% if current_user.admin? %>
+            <!-- button for admin to remove a registration -->
+            <%= button_to 'Remove Registration', event_registration_path(@event, registration), method: :delete, class: "button button-danger", data: { confirm: 'Are you sure you want to remove this registration?' } %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <!-- message displayed if no registrations are found -->
+    <p>No registrations yet.</p>
+  <% end %>
+
+  <% unless current_user.admin? %>
+    <% if logged_in? %>
+      <% if @registrations.exists?(user_id: current_user.id) %>
+        <!-- button to cancel registration if the user is already registered -->
+        <%= button_to 'Cancel Registration', event_registration_path(@event, @registrations.find_by(user_id: current_user.id)), method: :delete, class: "button button-danger", data: { confirm: 'Are you sure?' } %>
+      <% else %>
+        <!-- button to register for the event if not already registered -->
+        <%= button_to 'Register for Event', event_registrations_path(@event), method: :post, class: "button button-primary" %>
+      <% end %>
+    <% else %>
+      <!-- message displayed if the user needs to log in to register -->
+      <p>You must <%= link_to 'log in', login_path, class: "button" %> to register for this event.</p>
+    <% end %>
+  <% end %>
+
+  <div class="actions">
+    <!-- link to navigate back to the events list -->
+    <%= link_to 'Back to Events', events_path, class: "button button-secondary" %>
+  </div>
+</div>
+
+
+

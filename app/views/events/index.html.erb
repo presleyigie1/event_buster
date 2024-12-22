@@ -1,0 +1,27 @@
+<h1 class="title">Events</h1>
+
+<% if logged_in? %>
+  <p>Welcome, <%= h(current_user.username) %></p> <!-- Escape username to prevent XSS -->
+<% else %>
+  <p>
+    <!-- links to login or sign-up for non-logged-in users -->
+    <%= link_to 'login', login_path, class: 'button' %> | 
+    <%= link_to 'sign up', signup_path, class: 'button' %>
+  </p>
+<% end %>
+
+<!-- show create new event button for admin users -->
+<% if logged_in? && current_user.role == 'admin' %>
+  <%= link_to 'create new event', new_event_path, class: 'button button-primary' %>
+<% end %>
+
+<!-- list all events -->
+<ul class="event-list">
+  <% @events.each do |event| %>
+    <li class="event-item">
+      <!-- link to each event's details -->
+      <%= link_to h(event.name), event_path(event), class: 'event-link' %> <!-- Escape event name to prevent XSS -->
+    </li>
+  <% end %>
+</ul>
+

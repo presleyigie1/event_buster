@@ -1,0 +1,56 @@
+<div class="auth-form-container">
+  <h1>Sign Up</h1>
+
+  <!-- Form for signing up a user -->
+  <%= form_with model: @user, url: signup_path, local: true do |f| %>
+    <div>
+      <%= f.label :username, "Username" %>
+      <%= f.text_field :username, required: true %> <!-- Required username input -->
+    </div>
+
+    <div>
+      <%= f.label :password, "Password" %>
+      <%= f.password_field :password, required: true %> <!-- Required password input -->
+    </div>
+
+    <div>
+      <%= f.label :password_confirmation, "Confirm Password" %>
+      <%= f.password_field :password_confirmation, required: true %> <!-- Password confirmation -->
+    </div>
+
+    <div>
+      <%= f.label :role, "Role" %>
+      <%= f.select :role, [['Admin', 'admin'], ['User', 'user']], {}, { required: true } %> <!-- Dropdown for role selection -->
+    </div>
+
+    <!-- admin code field, hidden by default -->
+    <div id="admin-code-field" style="display: none;">
+      <%= f.label :admin_code, "Admin Code" %>
+      <%= f.password_field :admin_code %>
+    </div>
+
+    <div>
+      <%= f.submit "Sign Up", class: "button" %> <!-- Submit button -->
+    </div>
+  <% end %>
+
+  <!-- link to the login page -->
+  <%= link_to "Already have an account? Login", login_path, class: "auth-link" %>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const roleSelect = document.querySelector("select[name='user[role]']");
+      const adminCodeField = document.getElementById("admin-code-field");
+
+      // shows or hide the admin code field based on role selection
+      roleSelect.addEventListener("change", function() {
+        if (roleSelect.value === "admin") {
+          adminCodeField.style.display = "block"; // show for Admin
+        } else {
+          adminCodeField.style.display = "none"; // hide for User
+        }
+      });
+    });
+  </script>
+</div>
+
