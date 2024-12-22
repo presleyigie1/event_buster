@@ -1,3 +1,6 @@
+To register as an admin, admin code = 3021
+
+
 # README
 
 This README would normally document whatever steps are necessary to get the
