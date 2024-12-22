@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module EventBuster
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
+    # Initialize configuration defaults for originally generated Rails version
     config.load_defaults 7.1
     config.assets.enabled = true
 
